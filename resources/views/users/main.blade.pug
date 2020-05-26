@@ -1,0 +1,137 @@
+@extends('layouts.app')
+
+@section('styles')
+@endsection
+
+@section('content')
+
+
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom6">
+  <h1  style="font-weight: 300;">Usuarios</h1>
+
+  <div class="btn-toolbar mb-2 mb-md-0">
+   <a class="btn btn-primary" href="/nuevo" style="text-decoration-style: none;" data-toggle="tooltip" data-placement="top" title="Nuevo">Nuevo Usuario&nbsp;<i class="fa fa-plus"></i></a>
+ </div>
+
+</div>
+<div class="col-12">
+  <table class="table table-bordered" id="tableUsers" class="">
+   <thead> 
+    <tr>
+     <th>Acciones</th>
+     <th>Nick</th>
+     <th>Nombre</th>
+     <th>Apellidos</th>
+     <th>Password</th>
+     <th>Rol</th>
+     <th>Correo</th>
+   </tr>
+ </thead>
+ <tbody>
+  @foreach($usuarios as $usuario)
+   <tr>
+     <td>
+      <a href="/editar/{{$usuario->id}}" class=" btn btn-sm btn-info" data-toggle="tooltip" data-placement="top" title="Editar"><i class="fa fa-edit"></i></a>
+
+      <button type="button" class="btn btn-danger btn-sm"  class="btn btn-primary" data-toggle="modal" data-target="#modal{{$usuario->id}}" data-toggle="tooltip" data-placement="top" title="Eliminar"><i class="fa fa-trash" style="color: #fff;"></i></button>
+      <!-- Modal -->
+      <div class="modal fade" id="modal{{$usuario->id}}" tabindex="-1" role="dialog" aria-labelledby="modal{{$usuario->id}}" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">¿ Seguro deseas eliminar el usuario ?</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form action="/eliminar/{{$usuario->id}}" method="post">
+              @csrf
+              <input type="hidden" name="id" value="{{$usuario->id}}">
+              <div class="modal-body">
+               <button class="btn btn-danger btn-block idUser" type="submit">Si</button> 
+               <button type="button" class="btn btn-secondary btn-block" data-dismiss="modal">No</button>
+             </div>
+           </form>
+         </div>
+         <div class="modal-footer">
+
+         </div>
+       </div>
+     </div>
+   </div>
+ </td>
+ <td>{{$usuario->nick}}</td>
+ <td>{{$usuario->nombre}}</td>
+ <td>{{$usuario->apellidos}}</td>
+ <td>{{$usuario->contraseña}}</td>
+ <td>
+  @if($usuario->rol==0)
+  <span class="badge badge-primary">Admin</span>
+  @elseif($usuario->rol == 1)
+  <span class=" badge badge-secondary">Operador</span>
+  @elseif($usuario->rol == 2)
+  <span class="badge badge-warning">Administrativo</span>
+  @else
+  <span class=" badge badge-danger">sin definir</span>
+  @endif
+</td>
+<td>{{$usuario->correo}}</td>
+</tr>
+@endforeach
+</tbody>
+
+</table>
+</div>
+
+
+
+@endsection
+
+@section('scripts')
+
+
+<script type="text/javascript">
+ 
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+</script>
+
+<script>
+  $(document).ready(function() {
+        $('#tableUsers').DataTable( {
+            dom: 'Bfrtip',
+           
+        } );
+    } );
+
+    function filtra(i, value){
+        var table = $('#tableUsers').DataTable();
+        if ( table.column(i).search() !== this.value ) {
+            table
+                .column(i)
+                .search(value)
+                .draw();
+        }
+    }
+
+    $(document).ready( function () {
+        var table = $('#tableUsers').DataTable();
+
+        $('input.toggle-vis').on( 'click', function (e) {
+            //e.preventDefault();
+
+            // Get the column API object
+            var column = table.column( $(this).attr('data-column') );
+
+            // Toggle the visibility
+            column.visible( ! column.visible() );
+        } );
+
+    } );
+
+
+</script>
+
+@endsection

@@ -1,0 +1,54 @@
+@extends('layouts.app')
+
+@section('styles')
+@endsection
+
+@section('content')
+<form action="/guardar" method="post">
+  @csrf
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom6">
+    <h1  style="font-weight: 300;">Nuevo Usuarios</h1>
+
+    <div class="btn-toolbar mb-2 mb-md-0">
+     <a href="/" class=" btn btn-secondary"><i class="fa fa-home"></i> inicio</a>&nbsp;&nbsp;
+     <button class="btn btn-primary" type="submit"   >Crear&nbsp;<i class="fa fa-save"></i></button>
+   </div>
+  </div>
+
+   <div class="row">
+   <div class="col-md-4 col-sm-4">
+    <label>Nick</label>
+     <input type="text" name="nick" class="form-control" >
+   </div>
+   <div class="col-md-4 col-sm-4">
+    <label>Nombre</label>
+     <input type="text" name="nombre" class="form-control" >
+   </div>
+   <div class="col-md-4 col-sm-4">
+    <label>Apellidos</label>
+     <input type="text" name="apellidos" class="form-control" >
+   </div>
+ </div>
+ <div class="row">
+   <div class="col-md-4 col-sm-4">
+    <label>Contraseña</label>
+     <input type="password" name="contraseña" class="form-control" >
+   </div>
+   <div class="col-md-4 col-sm-4">
+    <label>Rol</label>
+    <select class="form-control" name="rol" >
+      <option value="0">Admin</option>
+      <option value="1">Operador</option>
+      <option value="2">Administrativo</option>
+    </select>
+   </div>
+   <div class="col-md-4 col-sm-4">
+    <label>Correo</label>
+     <input type="email" name="correo" class="form-control" >
+   </div>
+ </div>
+</form>
+@endsection
+
+@section('scripts')
+@endsection
